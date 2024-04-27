@@ -125,7 +125,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/download"/>
+        android:src="@drawable/defaultUser"/>
 
     <EditText
         android:id="@+id/DateOfBirthOUTPUT"

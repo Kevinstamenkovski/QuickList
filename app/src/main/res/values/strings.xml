@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QuickList</string>
+    <string name="back">&lt;</string>
 </resources>
