@@ -28,11 +28,12 @@ public class LoginActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((et_email_login.getText().toString()).equals(db_email) && (et_pass_login.getText().toString()).equals(db_pass) ) {
+                if ((et_email_login.getText().toString()).equals(db_email) && (et_pass_login.getText().toString()).equals(db_pass)) {
                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(i);
                     finish();
                 }
             }
         });
+    }
 }
