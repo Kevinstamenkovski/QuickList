@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.i(null, "Block Executed");
                 Log.i(null, password.getText().toString());
                 Log.i(null, hashedPassword);
-                Intent intent = new Intent(RegisterActivity.this, HomePage.class);
+                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
 //                startActivity(intent);
 //                finish();
             }
