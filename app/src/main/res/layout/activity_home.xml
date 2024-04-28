@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     android:paddingVertical="20dp"
-    tools:context=".HomePage">
+    tools:context=".HomeActivity">
 
     <TextView
         android:id="@+id/tvHome"
