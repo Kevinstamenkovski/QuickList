@@ -16,6 +16,7 @@ import java.sql.Blob;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+    ListActivity listActivity = new ListActivity();
     List<String> prodNames;
     List<Integer> prodAmounts;
     List<Blob> prodImages;
@@ -66,7 +67,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(ListActivity.this, ProductActivity.class);
+                    listActivity.selectProduct();
                 }
             });
         }
