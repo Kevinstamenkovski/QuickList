@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         title = findViewById(R.id.tvHome);
-        button_add_list = findViewById(R.id.btnAddList);
+        button_add_list = findViewById(R.id.btnAddProduct);
 
         //Prendo tutti i valori dal database e li metto in una array list
 
