@@ -6,4 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".ProductActivity">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="24dp" >
+        <!--Todo: make imageview round-->
+        <ImageView
+            android:id="@+id/productImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/productAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="productAmount" />
+
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="productName"/>
+
+        <!--todo Add edit image-->
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#00F0FF"
+            android:padding="0dp"
+            android:text="editImage" />
+
+        <Button
+            android:id="@+id/removeButton"
+            android:layout_width="50dp"
+            android:padding="0dp"
+            android:backgroundTint="#ff0000"
+            android:layout_height="50dp"
+            android:text="X"/>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
