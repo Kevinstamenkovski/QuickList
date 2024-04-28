@@ -24,5 +24,6 @@ public class ListActivity extends AppCompatActivity {
     }
     public void selectProduct(){
         Intent i = new Intent(ListActivity.this, ProductActivity.class);
+        startActivity(i);
     }
 }
