@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -24,6 +25,17 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        list_titles = new ArrayList<>();
+        list_number_items = new ArrayList<>();
+
+        list_titles.add("Ciao");
+        list_titles.add("Ciao");
+        list_titles.add("Ciao");
+
+        list_number_items.add(1);
+        list_number_items.add(1);
+        list_number_items.add(1);
 
         recyclerView = findViewById(R.id.recyclerView);
         title = findViewById(R.id.tvHome);
