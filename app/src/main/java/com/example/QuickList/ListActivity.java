@@ -19,6 +19,5 @@ public class ListActivity extends AppCompatActivity {
 //            Intent intent = new Intent(ListActivity.this, HomePage.class);
             finish();
         });
-        Button backButton;
     }
 }
