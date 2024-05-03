@@ -16,21 +16,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+    private final ListInterface listInterface;
     List<String> titles;
     List<Integer> number_items;
     LayoutInflater inflater;
 
-    public ListAdapter(Context ctx, List<String> titles, List<Integer> number_items) {
+    public ListAdapter(Context ctx, List<String> titles, List<Integer> number_items, ListInterface listInterface) {
         this.titles = titles;
         this.number_items = number_items;
         this.inflater = LayoutInflater.from(ctx);
+        this.listInterface = listInterface;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.list_layout, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, listInterface);
     }
 
     @Override
@@ -44,20 +46,25 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return titles.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView number;
         LinearLayout layout;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, ListInterface listInterface) {
             super(itemView);
             title = itemView.findViewById(R.id.tvListName);
             number = itemView.findViewById(R.id.tvNumerItems);
-            layout = itemView.findViewById(R.id.layout);
 
-            layout.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("LIST", "click");
+                    if (listInterface != null){
+                        int position = getAdapterPosition();
+
+                        if(position != RecyclerView.NO_POSITION) {
+                            listInterface.onItemClick(position);
+                        }
+                    }
                 }
             });
         }

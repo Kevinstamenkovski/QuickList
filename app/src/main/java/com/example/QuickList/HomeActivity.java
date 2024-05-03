@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ListInterface{
 
     List<String> list_titles;
     List<Integer> list_number_items;
@@ -43,14 +43,15 @@ public class HomeActivity extends AppCompatActivity {
 
         //Prendo tutti i valori dal database e li metto in una array list
 
-        adapter = new ListAdapter(this, list_titles, list_number_items);
+        adapter = new ListAdapter(this, list_titles, list_number_items, this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    void call() {
+    @Override
+    public void onItemClick(int position) {
         Intent intent = new Intent(HomeActivity.this, ListActivity.class);
         startActivity(intent);
     }
