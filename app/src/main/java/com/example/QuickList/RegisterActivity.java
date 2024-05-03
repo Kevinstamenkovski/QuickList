@@ -42,13 +42,14 @@ public class RegisterActivity extends AppCompatActivity {
         Log.e(null, hashedPassword);
         register.setOnClickListener(v -> {
             try {
-                Log.i(null, db.createUser(firstName.getText().toString(), lastName.getText().toString(), userName.getText().toString(), email.getText().toString(), hashedPassword, "test BLOB File", "test Date of Birth"));
+                Log.i(null, db.createUser(firstName.getText().toString(), lastName.getText().toString(), userName.getText().toString(), email.getText().toString(), password.getText().toString(), "test BLOB File", "test Date of Birth"));
             }catch (SQLiteException error){
                 Log.e(null, "ERROR in SQLite: "+ error);
             }finally{
+                PreferenceManager preferenceManager = new PreferenceManager(this);
+                preferenceManager.setLoggedIn(true);
                 Log.i(null, "Block Executed");
                 Log.i(null, password.getText().toString());
-                Log.i(null, hashedPassword);
                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -66,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 stringBuilder.append(String.format("%02x", b));
             }
             return stringBuilder.toString();
+//            return password;
         }catch (NoSuchAlgorithmException error){
             error.printStackTrace();
             return null;

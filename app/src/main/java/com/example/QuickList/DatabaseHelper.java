@@ -1,5 +1,6 @@
 package com.example.QuickList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,14 +26,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
     }
 
-    private static final String USER_TABLE_NAME = "Users";
-    private static final String USER_TABLE_COLUMN_ID = "userID";
-    private static final String USER_TABLE_COLUMN_PFP = "profile_picture";
-    private static final String USER_TABLE_COLUMN_USERNAME = "username";
-    private static final String USER_TABLE_COLUMN_FULLNAME = "fullname";
-    private static final String USER_TABLE_COLUMN_EMAIL = "email";
-    private static final String USER_TABLE_COLUMN_PASSWORD = "password";
-    private static final String USER_TABLE_COLUMN_DOB = "DoB";   //Date of birth
+    public static final String USER_TABLE_NAME = "Users";
+    public static final String USER_TABLE_COLUMN_ID = "userID";
+    public static final String USER_TABLE_COLUMN_PFP = "profile_picture";
+    public static final String USER_TABLE_COLUMN_USERNAME = "username";
+    public static final String USER_TABLE_COLUMN_FULLNAME = "fullname";
+    public static final String USER_TABLE_COLUMN_EMAIL = "email";
+    public static final String USER_TABLE_COLUMN_PASSWORD = "password";
+    public static final String USER_TABLE_COLUMN_DOB = "DoB";   //Date of birth
 
     private static final String LIST_TABLE_NAME = "list";
     private static final String LIST_TABLE_COLUMN_ID = "listID";
@@ -49,9 +50,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " +USER_TABLE_NAME);
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ USER_TABLE_NAME +" (" +
-                ""+ USER_TABLE_COLUMN_ID +" int(5) PRIMARY KEY UNIQUE , " +
-                ""+ USER_TABLE_COLUMN_PFP +" VARCHAR(150), " + //todo change to BLOB
+                ""+ USER_TABLE_COLUMN_ID +" int(5) PRIMARY KEY AUTOINCREMENT, " +
+//                ""+ USER_TABLE_COLUMN_PFP +" VARCHAR(150), " + //todo change to BLOB
                 ""+ USER_TABLE_COLUMN_USERNAME +" VARCHAR(150) NOT NULL UNIQUE, " +
                 ""+ USER_TABLE_COLUMN_FULLNAME +" VARCHAR(150) NOT NULL, " +
                 ""+ USER_TABLE_COLUMN_PASSWORD +" VARCHAR(150) NOT NULL, " +
@@ -59,12 +61,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ""+ USER_TABLE_COLUMN_DOB +" VARCHAR(150))");
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ LIST_TABLE_NAME +" (" +
                 ""+ LIST_TABLE_COLUMN_ID +" int(5) PRIMARY KEY NOT NULL UNIQUE , " +
-                ""+ LIST_TABLE_COLUMN_LIST_IMAGE +" BLOB, " +
+//                ""+ LIST_TABLE_COLUMN_LIST_IMAGE +" BLOB, " +
                 ""+ LIST_TABLE_COLUMN_LIST_NAME +" VARCHAR NOT NULL UNIQUE, " +
                 ""+ LIST_TABLE_COLUMN_PRODUCT_ID +" INT UNIQUE NOT NULL )");//FOREIGN KEY REFERENCE "+ PRODUCT_TABLE_NAME +"("+ PRODUCT_TABLE_COLUMN_ID +")
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ PRODUCT_TABLE_NAME +" (" +
                 ""+ PRODUCT_TABLE_COLUMN_ID +" int(5) PRIMARY KEY NOT NULL UNIQUE, " +
-                ""+ PRODUCT_TABLE_COLUMN_IMAGE +" BLOB, " +
+//                ""+ PRODUCT_TABLE_COLUMN_IMAGE +" BLOB, " +
                 ""+ PRODUCT_TABLE_COLUMN_NAME +" VARCHAR NOT NULL, " +
                 ""+ PRODUCT_TABLE_COLUMN_AMOUNT +" INT NOT NULL)");
     }
@@ -86,9 +88,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public Cursor getUser(String email, String password){
+    public Cursor getUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery( "SELECT * FROM Users WHERE email = \"" + email + "\" AND password = \"" + password + "\"",null);
+        String[] columns = {"userID", "fullname", "username", "email"};
+        String selection = "email = ? AND password = ?";
+        String[] selectionArgs = {email, password};
+        Cursor cursor = db.query("Users", columns, selection, selectionArgs, null, null, null);
         return cursor;
     }
 

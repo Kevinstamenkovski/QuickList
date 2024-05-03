@@ -28,24 +28,28 @@ public class LoginActivity extends AppCompatActivity {
         et_email_login = findViewById(R.id.etEmailLogin);
         et_pass_login = findViewById(R.id.etPassLogin);
 
-        button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button_login.setOnClickListener(v -> {
 
-                Cursor cursor = databaseHelper.getUser(et_email_login.getText().toString(), hashedPassword(et_pass_login.getText().toString()));
-                if (cursor != null && cursor.moveToFirst()) {
+
+                Log.e(null, et_email_login.getText().toString() + " porcodio " +et_pass_login.getText().toString());
+                Cursor cursor = databaseHelper.getUser(et_email_login.getText().toString(),et_pass_login.getText().toString());
+                cursor.moveToFirst();
+                Log.e(null, cursor.getCount() + "");
+                if (cursor != null) {
                     @SuppressLint("Range")
-                    int id = cursor.getInt(cursor.getColumnIndex("userID"));
+                    int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_ID));
                     @SuppressLint("Range")
-                    String fullname = cursor.getString(cursor.getColumnIndex("fullname"));
+                    String fullname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_FULLNAME));
                     @SuppressLint("Range")
-                    String username = cursor.getString(cursor.getColumnIndex("username"));
+                    String username = cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_USERNAME));
                     @SuppressLint("Range")
-                    String email = cursor.getString(cursor.getColumnIndex("email"));
+                    String email = cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_EMAIL));
                     User loggedUser = new User(id, fullname, email, username);
                     Log.e(null, loggedUser.getUSERNAME());
                     Log.e(null, loggedUser.getFULLNAME());
                     Log.e(null, loggedUser.getEMAIL());
+                    PreferenceManager preferenceManager = new PreferenceManager(this);
+                    preferenceManager.setLoggedIn(true);
                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(i);
                     finish();
@@ -55,11 +59,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-            }
+
         });
     }
     private String hashedPassword(String password){
         String hashedPassword = "";
+
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.update(password.getBytes());
@@ -69,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 stringBuilder.append(String.format("%02x", b));
             }
             return stringBuilder.toString();
+//            return password;
         }catch (NoSuchAlgorithmException error){
             error.printStackTrace();
             return null;
