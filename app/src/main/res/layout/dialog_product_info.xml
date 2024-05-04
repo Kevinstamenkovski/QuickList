@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="16dp"
@@ -13,31 +12,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvDialogEditProductName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/anonymous_pro"
-            android:text="Aggiungi prodotto"
-            android:textSize="30sp"
-            android:textStyle="bold">
-
-        </TextView>
+            android:text="product name"
+            android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/etDialogAddProductName"
+            android:id="@+id/etDialogEditProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Nome"
             android:inputType="text"
-            android:textSize="24sp" />
+            android:text="productName" />
 
-        <Button
-            android:id="@+id/btnDialogAddProduct"
+        <EditText
+            android:id="@+id/etDialogEditProductAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aggiungi!" />
+            android:ems="10"
+            android:inputType="text"
+            android:text="productAmount" />
 
+        <Button
+            android:id="@+id/btnDialogEditProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Conferma!" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
