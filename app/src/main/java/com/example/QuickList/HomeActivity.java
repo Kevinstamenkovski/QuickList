@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ListInterface{
+    PreferenceManager preferenceManager;
 
     List<String> list_titles;
     List<Integer> list_number_items;
@@ -24,16 +25,18 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     ListAdapter adapter;
     TextView title;
     Button button_add_list;
+    Button logoutBtn;
 
     Dialog dialog;
     Button btnDialogAddList;
     EditText etDialogListName;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        preferenceManager = new PreferenceManager(this);
         list_titles = new ArrayList<>();
         list_number_items = new ArrayList<>();
 
@@ -48,6 +51,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         recyclerView = findViewById(R.id.recyclerView);
         title = findViewById(R.id.tvHome);
         button_add_list = findViewById(R.id.btnAddProduct);
+        logoutBtn = findViewById(R.id.logoutBtn);
 
         dialog = new Dialog(HomeActivity.this);
         dialog.setContentView(R.layout.popup_add_list);
@@ -76,6 +80,13 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
             public void onClick(View v) {
                 dialog.show();
             }
+        });
+
+        logoutBtn.setOnClickListener(v -> {
+            preferenceManager.setLoggedIn(false);
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 

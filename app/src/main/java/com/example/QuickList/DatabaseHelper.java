@@ -52,13 +52,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " +USER_TABLE_NAME);
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ USER_TABLE_NAME +" (" +
-                ""+ USER_TABLE_COLUMN_ID +" int(5) PRIMARY KEY AUTOINCREMENT, " +
+                ""+ USER_TABLE_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                ""+ USER_TABLE_COLUMN_PFP +" VARCHAR(150), " + //todo change to BLOB
                 ""+ USER_TABLE_COLUMN_USERNAME +" VARCHAR(150) NOT NULL UNIQUE, " +
                 ""+ USER_TABLE_COLUMN_FULLNAME +" VARCHAR(150) NOT NULL, " +
                 ""+ USER_TABLE_COLUMN_PASSWORD +" VARCHAR(150) NOT NULL, " +
-                ""+ USER_TABLE_COLUMN_EMAIL +" VARCHAR(150) UNIQUE NOT NULL, " +
-                ""+ USER_TABLE_COLUMN_DOB +" VARCHAR(150))");
+                ""+ USER_TABLE_COLUMN_EMAIL +" VARCHAR(150) UNIQUE NOT NULL)"
+//                ""+ USER_TABLE_COLUMN_DOB +" VARCHAR(150))"
+        );
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ LIST_TABLE_NAME +" (" +
                 ""+ LIST_TABLE_COLUMN_ID +" int(5) PRIMARY KEY NOT NULL UNIQUE , " +
 //                ""+ LIST_TABLE_COLUMN_LIST_IMAGE +" BLOB, " +
@@ -71,15 +72,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ""+ PRODUCT_TABLE_COLUMN_AMOUNT +" INT NOT NULL)");
     }
 
-    public String createUser(String firstname, String lastname, String username, String email, String password, String profilepicture, String date){
+    public String createUser(String firstname, String lastname, String username, String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(USER_TABLE_COLUMN_FULLNAME, firstname + " " + lastname);
         contentValues.put(USER_TABLE_COLUMN_EMAIL, email);
         contentValues.put(USER_TABLE_COLUMN_PASSWORD, password);
         contentValues.put(USER_TABLE_COLUMN_USERNAME, username);
-        contentValues.put(USER_TABLE_COLUMN_PFP, profilepicture.toString());
-        contentValues.put(USER_TABLE_COLUMN_DOB, date.toString());
         db.insert(USER_TABLE_NAME, null, contentValues);
         return "true";
     }
@@ -90,10 +89,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {"userID", "fullname", "username", "email"};
+        String[] columns = {USER_TABLE_COLUMN_ID, USER_TABLE_COLUMN_FULLNAME, USER_TABLE_COLUMN_USERNAME, USER_TABLE_COLUMN_EMAIL};
         String selection = "email = ? AND password = ?";
         String[] selectionArgs = {email, password};
-        Cursor cursor = db.query("Users", columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(USER_TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         return cursor;
     }
 
