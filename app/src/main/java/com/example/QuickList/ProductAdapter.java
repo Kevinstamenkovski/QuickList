@@ -57,8 +57,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ViewHolder(@NonNull View itemView, ProductInterface productInterface){
             super(itemView);
 //            productImage = itemView.findViewById(R.id.productImage);
-            productName = itemView.findViewById(R.id.tvProductAmount);
-            productAmount = itemView.findViewById(R.id.tvProductName);
+            productName = itemView.findViewById(R.id.tvProductName);
+            productAmount = itemView.findViewById(R.id.tvProductAmount);
             removeButton = itemView.findViewById(R.id.removeButton);
 
             itemView.setOnClickListener(new View.OnClickListener() {

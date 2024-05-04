@@ -15,7 +15,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements ProductInterface {
     Button backButton, btnAddProduct, btnDialogAddProduct;
     ProductAdapter adapter;
     RecyclerView recyclerView;
@@ -59,7 +59,7 @@ public class ListActivity extends AppCompatActivity {
         btnDialogAddProduct = dialog.findViewById(R.id.btnDialogAddList);
         etDialogProductName = dialog.findViewById(R.id.etDialogListName);
 
-        adapter = new ProductAdapter(this, product_names, prod_amounts);
+        adapter = new ProductAdapter(this, product_names, prod_amounts, this);
 
         //Prendo tutti i valori dal database e li metto in una array list
 
@@ -86,5 +86,15 @@ public class ListActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onButtonClick(int position) {
+
     }
 }
