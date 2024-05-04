@@ -21,10 +21,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     List<Integer> number_items;
     LayoutInflater inflater;
 
-    public ListAdapter(Context ctx, List<String> titles, List<Integer> number_items, ListInterface listInterface) {
+    public ListAdapter(Context context, List<String> titles, List<Integer> number_items, ListInterface listInterface) {
         this.titles = titles;
         this.number_items = number_items;
-        this.inflater = LayoutInflater.from(ctx);
+        this.inflater = LayoutInflater.from(context);
         this.listInterface = listInterface;
     }
 

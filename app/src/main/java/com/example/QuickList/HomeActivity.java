@@ -49,12 +49,12 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         logoutBtn = findViewById(R.id.logoutBtn);
 
         dialog = new Dialog(HomeActivity.this);
-        dialog.setContentView(R.layout.popup_add_list);
+        dialog.setContentView(R.layout.dialog_add_list);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
-        btnDialogAddList = dialog.findViewById(R.id.btnDialog);
-        etDialogListName = dialog.findViewById(R.id.etDialog);
+        btnDialogAddList = dialog.findViewById(R.id.btnDialogAddList);
+        etDialogListName = dialog.findViewById(R.id.etDialogListName);
 
         adapter = new ListAdapter(this, list_titles, list_number_items, this);
 
