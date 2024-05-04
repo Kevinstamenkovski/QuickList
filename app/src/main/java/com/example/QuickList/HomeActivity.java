@@ -23,14 +23,10 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     List<Integer> list_number_items;
     RecyclerView recyclerView;
     ListAdapter adapter;
-    TextView title;
-    Button button_add_list;
-    Button logoutBtn;
+    Button button_add_list, btnDialogAddList,logoutBtn;
 
     Dialog dialog;
-    Button btnDialogAddList;
     EditText etDialogListName;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +44,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         list_number_items.add(1);
         list_number_items.add(1);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        title = findViewById(R.id.tvHome);
+        recyclerView = findViewById(R.id.rvLists);
         button_add_list = findViewById(R.id.btnAddProduct);
         logoutBtn = findViewById(R.id.logoutBtn);
 
@@ -60,16 +55,10 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         btnDialogAddList = dialog.findViewById(R.id.btnDialog);
         etDialogListName = dialog.findViewById(R.id.etDialog);
-        btnDialogAddList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etDialogListName.getText().toString();
-                dialog.dismiss();
-            }
-        });
-        //Prendo tutti i valori dal database e li metto in una array list
 
         adapter = new ListAdapter(this, list_titles, list_number_items, this);
+
+        //Prendo tutti i valori dal database e li metto in una array list
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -79,6 +68,19 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
             @Override
             public void onClick(View v) {
                 dialog.show();
+            }
+        });
+
+        btnDialogAddList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etDialogListName.getText().toString();
+                etDialogListName.setText("");
+                list_titles.add(name);
+                list_number_items.add(0);
+                adapter.notifyDataSetChanged();
+
+                dialog.dismiss();
             }
         });
 
