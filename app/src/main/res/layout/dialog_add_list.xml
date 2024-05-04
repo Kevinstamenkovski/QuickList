@@ -19,13 +19,13 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/anonymous_pro"
             android:text="Aggiungi lista"
-            android:textSize="34sp"
+            android:textSize="30sp"
             android:textStyle="bold">
 
         </TextView>
 
         <EditText
-            android:id="@+id/etDialog"
+            android:id="@+id/etDialogListName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -34,7 +34,7 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/btnDialog"
+            android:id="@+id/btnDialogAddList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Aggiungi!" />
