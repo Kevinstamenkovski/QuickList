@@ -18,13 +18,11 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ListInterface{
     PreferenceManager preferenceManager;
-
     List<String> list_titles;
     List<Integer> list_number_items;
     RecyclerView recyclerView;
     ListAdapter adapter;
     Button button_add_list, btnDialogAddList,logoutBtn;
-
     Dialog dialog;
     EditText etDialogListName;
 

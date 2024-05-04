@@ -15,29 +15,31 @@ import java.sql.Blob;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+    private final ProductInterface productInterface;
     List<String> prodNames;
     List<Integer> prodAmounts;
     List<Blob> prodImages;
     LayoutInflater inflater;
 
-    public ProductAdapter(Context context, List<String> prodNames, List<Integer> prodAmounts) {
+    public ProductAdapter(Context context, List<String> prodNames, List<Integer> prodAmounts, ProductInterface productInterface) {
         this.prodNames = prodNames;
         this.prodAmounts = prodAmounts;
 //        this.prodImages = prodImages;
         this.inflater = LayoutInflater.from(context);
+        this.productInterface = productInterface;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.product_layout, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, productInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //        todo:        holder.prodImage.setImage(prodImages.get(position));
-        holder.productName.setText(prodNames.get(position).toString());
+        holder.productName.setText(prodNames.get(position));
         holder.productAmount.setText(prodAmounts.get(position).toString());
     }
 
@@ -46,21 +48,43 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return prodNames.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView productImage;
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+//        ImageView productImage;
         TextView productName;
         TextView productAmount;
         Button removeButton;
 
-        public ViewHolder(@NonNull View view){
-            super(view);
+        public ViewHolder(@NonNull View itemView, ProductInterface productInterface){
+            super(itemView);
 //            productImage = itemView.findViewById(R.id.productImage);
             productName = itemView.findViewById(R.id.tvProductAmount);
             productAmount = itemView.findViewById(R.id.tvProductName);
             removeButton = itemView.findViewById(R.id.removeButton);
 
-            removeButton.setOnClickListener(v -> {
-//                todo: remove method
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (productInterface != null){
+                        int position = getAdapterPosition();
+
+                        if(position != RecyclerView.NO_POSITION) {
+                            productInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (productInterface != null){
+                        int position = getAdapterPosition();
+
+                        if(position != RecyclerView.NO_POSITION) {
+                            productInterface.onButtonClick(position);
+                        }
+                    }
+                }
             });
         }
     }
