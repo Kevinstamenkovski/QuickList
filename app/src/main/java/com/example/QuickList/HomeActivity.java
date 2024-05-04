@@ -11,17 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ListInterface{
+    PreferenceManager preferenceManager;
 
     List<String> list_titles;
     List<Integer> list_number_items;
     RecyclerView recyclerView;
     ListAdapter adapter;
-    Button button_add_list, btnDialogAddList;
+    Button button_add_list, btnDialogAddList,logoutBtn;
+
     Dialog dialog;
     EditText etDialogListName;
 
@@ -29,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        preferenceManager = new PreferenceManager(this);
         list_titles = new ArrayList<>();
         list_number_items = new ArrayList<>();
 
@@ -43,6 +46,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         recyclerView = findViewById(R.id.rvLists);
         button_add_list = findViewById(R.id.btnAddProduct);
+        logoutBtn = findViewById(R.id.logoutBtn);
 
         dialog = new Dialog(HomeActivity.this);
         dialog.setContentView(R.layout.popup_add_list);
@@ -78,6 +82,13 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
                 dialog.dismiss();
             }
+        });
+
+        logoutBtn.setOnClickListener(v -> {
+            preferenceManager.setLoggedIn(false);
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 

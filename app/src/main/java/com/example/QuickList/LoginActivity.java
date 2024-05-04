@@ -3,11 +3,13 @@ package com.example.QuickList;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 Cursor cursor = databaseHelper.getUser(et_email_login.getText().toString(),et_pass_login.getText().toString());
                 cursor.moveToFirst();
                 Log.e(null, cursor.getCount() + "");
-                if (cursor != null) {
+                try {
                     @SuppressLint("Range")
                     int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_ID));
                     @SuppressLint("Range")
@@ -45,16 +47,18 @@ public class LoginActivity extends AppCompatActivity {
                     @SuppressLint("Range")
                     String email = cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_EMAIL));
                     User loggedUser = new User(id, fullname, email, username);
-                    Log.e(null, loggedUser.getUSERNAME());
-                    Log.e(null, loggedUser.getFULLNAME());
-                    Log.e(null, loggedUser.getEMAIL());
+                    Log.e(null, fullname + " " + username + " " + email);
                     PreferenceManager preferenceManager = new PreferenceManager(this);
                     preferenceManager.setLoggedIn(true);
                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                    i.putExtra("id", id);
+                    i.putExtra("username", username);
+                    i.putExtra("email", email);
                     startActivity(i);
                     finish();
-                }else {
-                    Log.e("LoginActivity", "Error");
+                }catch (CursorIndexOutOfBoundsException e){
+                    Toast.makeText(this, "User Not Found", Toast.LENGTH_SHORT).show();
+                    Log.e(null, e.getMessage().toString());
                 }
 
 

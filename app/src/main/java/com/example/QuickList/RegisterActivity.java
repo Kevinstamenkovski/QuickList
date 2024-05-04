@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         Log.e(null, hashedPassword);
         register.setOnClickListener(v -> {
             try {
-                Log.i(null, db.createUser(firstName.getText().toString(), lastName.getText().toString(), userName.getText().toString(), email.getText().toString(), password.getText().toString(), "test BLOB File", "test Date of Birth"));
+                Log.i(null, db.createUser(firstName.getText().toString(), lastName.getText().toString(), userName.getText().toString(), email.getText().toString(), password.getText().toString()));
             }catch (SQLiteException error){
                 Log.e(null, "ERROR in SQLite: "+ error);
             }finally{
