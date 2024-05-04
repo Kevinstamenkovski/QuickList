@@ -15,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         PreferenceManager preferenceManager = new PreferenceManager(this);
-        if (preferenceManager.isLoggedIn()){
-            Intent i = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(i);
-        }
+//        if (preferenceManager.isLoggedIn()){
+//            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+//            startActivity(i);
+//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

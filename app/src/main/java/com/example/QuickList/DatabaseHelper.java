@@ -1,75 +1,62 @@
 package com.example.QuickList;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.Tag;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import java.sql.Blob;
-import java.sql.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "quicklistdb";
-    public DatabaseHelper(Context context){
-        super(context, DB_NAME, null, 1);
-    }
+
 
     public static final String USER_TABLE_NAME = "Users";
     public static final String USER_TABLE_COLUMN_ID = "userID";
-    public static final String USER_TABLE_COLUMN_PFP = "profile_picture";
     public static final String USER_TABLE_COLUMN_USERNAME = "username";
     public static final String USER_TABLE_COLUMN_FULLNAME = "fullname";
     public static final String USER_TABLE_COLUMN_EMAIL = "email";
     public static final String USER_TABLE_COLUMN_PASSWORD = "password";
-    public static final String USER_TABLE_COLUMN_DOB = "DoB";   //Date of birth
 
-    private static final String LIST_TABLE_NAME = "list";
-    private static final String LIST_TABLE_COLUMN_ID = "listID";
-    private static final String LIST_TABLE_COLUMN_LIST_NAME = "list_name";
-    private static final String LIST_TABLE_COLUMN_LIST_IMAGE = "list_image";
-    private static final String LIST_TABLE_COLUMN_PRODUCT_ID = "productID";
+    public static final String LIST_TABLE_NAME = "list";
+    public static final String LIST_TABLE_COLUMN_ID = "listID";
+    public static final String LIST_TABLE_COLUMN_LIST_NAME = "list_name";
+    public static final String LIST_TABLE_COLUMN_USER_ID = "userID";
 
     private static final String PRODUCT_TABLE_NAME = "Products";
     private static final String PRODUCT_TABLE_COLUMN_ID = "productID";
-    private static final String PRODUCT_TABLE_COLUMN_IMAGE = "image";
     private static final String PRODUCT_TABLE_COLUMN_NAME = "name";
     private static final String PRODUCT_TABLE_COLUMN_AMOUNT = "amount";
+    public static final String PRODUCT_TABLE_COLUMN_LIST_ID = "listID";
 
+
+    public DatabaseHelper(Context context){
+        super(context, DB_NAME, null, 1);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " +USER_TABLE_NAME);
+        Log.e(null, "ONCREATE DATABASEHELPER");
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ USER_TABLE_NAME +" (" +
                 ""+ USER_TABLE_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                ""+ USER_TABLE_COLUMN_PFP +" VARCHAR(150), " + //todo change to BLOB
                 ""+ USER_TABLE_COLUMN_USERNAME +" VARCHAR(150) NOT NULL UNIQUE, " +
                 ""+ USER_TABLE_COLUMN_FULLNAME +" VARCHAR(150) NOT NULL, " +
                 ""+ USER_TABLE_COLUMN_PASSWORD +" VARCHAR(150) NOT NULL, " +
                 ""+ USER_TABLE_COLUMN_EMAIL +" VARCHAR(150) UNIQUE NOT NULL)"
-//                ""+ USER_TABLE_COLUMN_DOB +" VARCHAR(150))"
         );
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ LIST_TABLE_NAME +" (" +
-                ""+ LIST_TABLE_COLUMN_ID +" int(5) PRIMARY KEY NOT NULL UNIQUE , " +
-//                ""+ LIST_TABLE_COLUMN_LIST_IMAGE +" BLOB, " +
+                ""+ LIST_TABLE_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " +
                 ""+ LIST_TABLE_COLUMN_LIST_NAME +" VARCHAR NOT NULL UNIQUE, " +
-                ""+ LIST_TABLE_COLUMN_PRODUCT_ID +" INT UNIQUE NOT NULL )");//FOREIGN KEY REFERENCE "+ PRODUCT_TABLE_NAME +"("+ PRODUCT_TABLE_COLUMN_ID +")
+                ""+ LIST_TABLE_COLUMN_USER_ID +" VARCHAR NOT NULL)");//FOREIGN KEY REFERENCE "+ PRODUCT_TABLE_NAME +"("+ PRODUCT_TABLE_COLUMN_ID +")
+
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ PRODUCT_TABLE_NAME +" (" +
-                ""+ PRODUCT_TABLE_COLUMN_ID +" int(5) PRIMARY KEY NOT NULL UNIQUE, " +
-//                ""+ PRODUCT_TABLE_COLUMN_IMAGE +" BLOB, " +
+                ""+ PRODUCT_TABLE_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " +
                 ""+ PRODUCT_TABLE_COLUMN_NAME +" VARCHAR NOT NULL, " +
+                ""+ PRODUCT_TABLE_COLUMN_LIST_ID +" INT NOT NULL,  " +
                 ""+ PRODUCT_TABLE_COLUMN_AMOUNT +" INT NOT NULL)");
+        db. execSQL("INSERT INTO list (list_name, userID) VALUES (\"testName1\", 1 ), (\"testName2\", 2), (\"testName3\",  1)");
+        db. execSQL("INSERT INTO Products (name, amount, listID) VALUES (\"testNameProd1\", 2, 1), (\"testNameProd2\", 4, 2), (\"testNameProd3\",  1, 1)");
     }
 
     public String createUser(String firstname, String lastname, String username, String email, String password){
@@ -89,11 +76,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Cursor getUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {USER_TABLE_COLUMN_ID, USER_TABLE_COLUMN_FULLNAME, USER_TABLE_COLUMN_USERNAME, USER_TABLE_COLUMN_EMAIL};
-        String selection = "email = ? AND password = ?";
-        String[] selectionArgs = {email, password};
-        Cursor cursor = db.query(USER_TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ USER_TABLE_NAME +" WHERE "+USER_TABLE_COLUMN_EMAIL+" = \""+email+"\" AND "+USER_TABLE_COLUMN_PASSWORD+" = \""+password+"\"", null);
         return cursor;
     }
+
+    public Cursor getListsByUserID(int ID){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT listID, list_name, list.userID " +
+                "FROM list " +
+                "JOIN Users ON Users.userID = list.userID " +
+                "WHERE Users.userID = "+ID, null);
+        return cursor;
+    }
+
+    public int getProductNumbers(int id){
+        int productNumber = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT productID " +
+                "FROM Products " +
+                "JOIN list ON list.listID = Products.productID " +
+                "WHERE Products.listID = "+id, null);
+        cursor.moveToLast();
+        productNumber = cursor.getCount();
+        return productNumber;
+    }
+
 
 }
