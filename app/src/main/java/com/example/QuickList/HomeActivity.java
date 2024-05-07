@@ -31,7 +31,10 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     Button button_add_list, btnDialogAddList,logoutBtn;
     Dialog dialog;
     EditText etDialogListName;
+    public int userID;
+    public int listID;
 
+//    @SuppressLint("Range")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         preferenceManager = new PreferenceManager(this);
         databaseHelper = new DatabaseHelper(this);
         intent = getIntent();
-        int userID = intent.getIntExtra("id", -1);
+        userID = intent.getIntExtra("id", -1);
 
         list_titles = new ArrayList<>();
         list_number_items = new ArrayList<>();
@@ -47,6 +50,8 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
 
         Cursor cursor = databaseHelper.getListsByUserID(userID);
+        @SuppressLint("Range")
+        int listID = cursor.getInt(cursor.getColumnIndex("listID"));
 
         Log.e(null, "CURSOR COUNT: "+ String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
@@ -97,6 +102,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
             public void onClick(View v) {
                 String name = etDialogListName.getText().toString();
                 etDialogListName.setText("");
+                databaseHelper.createList(name, userID);
                 list_titles.add(name);
                 list_number_items.add(0);
                 adapter.notifyDataSetChanged();
@@ -116,10 +122,9 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(HomeActivity.this, ListActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("listID", listID);
         startActivity(intent);
     }
 
-    public void getLists(){
-
-    }
 }

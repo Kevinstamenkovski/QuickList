@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListActivity extends AppCompatActivity implements ProductInterface {
+    DatabaseHelper databaseHelper;
+    Cursor cursor;
     Button backButton, btnAddProduct, btnDialogAddProduct, btnDialogEditProduct;
     ProductAdapter adapter;
     RecyclerView recyclerView;
@@ -24,6 +29,10 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
     Dialog dialogAddItem, dialogEditItem;
     EditText etDialogProductName, etDialogEditProductName, etDialogEditProductAmount;
     TextView tvDialogEditProductName;
+
+    Intent intent = getIntent();
+    int listID;
+    int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +48,6 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
 
         product_names = new ArrayList<>();
         product_amounts = new ArrayList<>();
-
-        product_names.add("Ciao");
-        product_names.add("Ciao");
-        product_names.add("Ciao");
-
-        product_amounts.add(1);
-        product_amounts.add(1);
-        product_amounts.add(1);
 
         recyclerView = findViewById(R.id.rvProducts);
         btnAddProduct = findViewById(R.id.btnAddProduct);
@@ -68,7 +69,20 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
         etDialogEditProductAmount = dialogEditItem.findViewById(R.id.etDialogEditProductAmount);
         tvDialogEditProductName = dialogEditItem.findViewById(R.id.tvDialogEditProductName);
         btnDialogEditProduct = dialogEditItem.findViewById(R.id.btnDialogEditProduct);
+        userID = intent.getIntExtra("userID", -1);
+        listID = intent.getIntExtra("listID", -1);
 
+        cursor = databaseHelper.getProducts(listID, userID);
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range")
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                @SuppressLint("Range")
+                int amount = cursor.getInt(cursor.getColumnIndex("amount"));
+                product_names.add(name);
+                product_amounts.add(amount);
+            } while (cursor.moveToNext());
+        }
         adapter = new ProductAdapter(this, product_names, product_amounts, this);
 
         //Prendo tutti i valori dal database e li metto in una array list
@@ -89,8 +103,7 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
             public void onClick(View v) {
                 String name = etDialogProductName.getText().toString();
                 etDialogProductName.setText("");
-                product_names.add(name);
-                product_amounts.add(0);
+                databaseHelper.createProduct(name, 1, listID);
                 adapter.notifyDataSetChanged();
                 dialogAddItem.dismiss();
             }
