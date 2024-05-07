@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/bg_light"
     android:paddingVertical="40dp"
     tools:context=".MainActivity">
 
@@ -49,7 +49,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:fontFamily="@font/roboto_slab"
+        android:fontFamily="@font/anonymous_pro"
         android:padding="20dp"
         android:text="Login"
         android:textColor="@color/text_light"
@@ -64,7 +64,7 @@
         android:id="@+id/btnToRegister"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_slab"
+        android:fontFamily="@font/anonymous_pro"
         android:padding="20dp"
         android:text="Registrati"
         android:textColor="@color/text_light"

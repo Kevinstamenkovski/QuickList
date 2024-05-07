@@ -8,9 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     private static final String DB_NAME = "quicklistdb";
-
 
     public static final String USER_TABLE_NAME = "Users";
     public static final String USER_TABLE_COLUMN_ID = "userID";
@@ -134,6 +132,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.update();
         return true;
     }
-
-
 }

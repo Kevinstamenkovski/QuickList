@@ -1,6 +1,8 @@
 package com.example.QuickList;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,44 +15,46 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class RegisterActivity extends AppCompatActivity {
-    DatabaseHelper db;
-    EditText firstName;
-    EditText lastName;
-    EditText userName;
-    EditText email;
-    EditText password;
-    Button register;
-    Button DoB;
-    EditText DoBoutput;
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);;
+    EditText etFirstName, etLastName, etUserName, etEmail, etPassword;
+    Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        db = new DatabaseHelper(this);
-        firstName = findViewById(R.id.firstName);
-        lastName = findViewById(R.id.LastName);
-        userName = findViewById(R.id.userName);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        register = findViewById(R.id.register);
-        DoB = findViewById(R.id.DoB);
-        DoBoutput = findViewById(R.id.DateOfBirthOUTPUT);
-        String hashedPassword = hashPassword(password.getText().toString());
+        etFirstName = findViewById(R.id.etNameRegister);
+        etLastName = findViewById(R.id.etSurnameRegister);
+        etUserName = findViewById(R.id.etUserName);
+        etEmail = findViewById(R.id.etEmailRegister);
+        etPassword = findViewById(R.id.etPassRegister);
+        btnRegister = findViewById(R.id.btnRegister);
+
+        /*String hashedPassword = hashPassword(etPassword.getText().toString());
         Log.e(null, password.toString());
-        Log.e(null, hashedPassword);
-        register.setOnClickListener(v -> {
+        Log.e(null, hashedPassword);*/
+
+        btnRegister.setOnClickListener(v -> {
             try {
-                Log.i(null, db.createUser(firstName.getText().toString(), lastName.getText().toString(), userName.getText().toString(), email.getText().toString(), password.getText().toString()));
+                Log.i(null, databaseHelper.createUser(etFirstName.getText().toString(), etLastName.getText().toString(), etUserName.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString()));
             }catch (SQLiteException error){
                 Log.e(null, "ERROR in SQLite: "+ error);
             }finally{
                 PreferenceManager preferenceManager = new PreferenceManager(this);
                 preferenceManager.setLoggedIn(true);
+/*
+                Log.i(null, etPassword.getText().toString());
                 Log.i(null, "Block Executed");
-                Log.i(null, password.getText().toString());
+*/
+                Cursor cursor = databaseHelper.getUser(etEmail.getText().toString(), etPassword.getText().toString());
+                cursor.moveToFirst();
+                Log.e("cursor", cursor.getCount() + "");
+                @SuppressLint("Range")
+                int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.USER_TABLE_COLUMN_ID));
+
                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }

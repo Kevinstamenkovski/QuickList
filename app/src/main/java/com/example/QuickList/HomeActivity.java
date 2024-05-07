@@ -39,17 +39,18 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         preferenceManager = new PreferenceManager(this);
         databaseHelper = new DatabaseHelper(this);
+
         intent = getIntent();
         userID = intent.getIntExtra("id", -1);
 
         list_titles = new ArrayList<>();
         list_number_items = new ArrayList<>();
 
-
-
         Cursor cursor = databaseHelper.getListsByUserID(userID);
+
         @SuppressLint("Range")
         int listID = cursor.getInt(cursor.getColumnIndex("listID"));
 
@@ -68,7 +69,6 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         }
         Log.e(null, "FINISHED GETTING LIST");
         adapter = new ListAdapter(this, list_titles, list_number_items, this);
-
 
         recyclerView = findViewById(R.id.rvLists);
         button_add_list = findViewById(R.id.btnAddProduct);

@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_light"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     android:paddingVertical="40dp"
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/tvLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
-        android:fontFamily="@font/anonymous_pro"
+        android:fontFamily="@font/roboto_slab"
         android:text="Inserisci le credenziali"
         android:textAlignment="center"
-        android:textSize="34sp" />
+        android:textColor="@color/text_dark"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etEmailLogin"
@@ -26,7 +28,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:fontFamily="@font/anonymous_pro"
+        android:fontFamily="@font/roboto_slab"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:textSize="20sp" />
@@ -38,7 +40,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:fontFamily="@font/anonymous_pro"
+        android:fontFamily="@font/roboto_slab"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="20sp" />
@@ -55,7 +57,9 @@
             android:layout_gravity="bottom|center"
             android:fontFamily="@font/anonymous_pro"
             android:text="Login"
+            android:textColor="@color/text_light"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
