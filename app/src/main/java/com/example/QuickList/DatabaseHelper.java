@@ -92,13 +92,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getProductNumbers(int id){
         int productNumber = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT productID " +
+        Cursor cursor = db.rawQuery("SELECT COUNT(productID) " +
                 "FROM Products " +
                 "JOIN list ON list.listID = Products.productID " +
                 "WHERE Products.listID = "+id, null);
         cursor.moveToLast();
+
         productNumber = cursor.getCount();
         return productNumber;
+    }
+
+    public Cursor getProducts(int listID, int userID){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Products " +
+                "JOIN list ON Products.listID = list.listID " +
+                "JOIN Users ON Users.userID = list.userID " +
+                "WHERE list.listID = " +listID+ " " +
+                "AND Users.userID = " +userID,null);
+        return cursor;
+    }
+    public boolean createList(String name, int userID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LIST_TABLE_COLUMN_LIST_NAME, name);
+        contentValues.put(LIST_TABLE_COLUMN_USER_ID, userID);
+        db.insert(LIST_TABLE_NAME, null, contentValues);
+        return true;
+    }
+    public boolean createProduct(String name, int amount, int listID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PRODUCT_TABLE_COLUMN_NAME, name);
+        contentValues.put(PRODUCT_TABLE_COLUMN_AMOUNT, amount);
+        contentValues.put(PRODUCT_TABLE_COLUMN_LIST_ID, listID);
+        db.insert(PRODUCT_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public boolean updateProduct(int productID){
+        SQLiteDatabase db = this.getWritableDatabase();
+//        db.update();
+        return true;
     }
 
 
