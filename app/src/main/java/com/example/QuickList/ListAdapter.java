@@ -47,7 +47,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         TextView number;
         public ViewHolder(@NonNull View itemView, ListInterface listInterface) {
             super(itemView);
-            title = itemView.findViewById(R.id.tvListName);
+            title = itemView.findViewById(R.id.tvListNameCard);
             number = itemView.findViewById(R.id.tvNumerItems);
 
             itemView.setOnClickListener(new View.OnClickListener() {

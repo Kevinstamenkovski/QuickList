@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_light"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
     android:paddingVertical="20dp"
     tools:context=".HomeActivity">
 
     <TextView
-        android:id="@+id/tvHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/anonymous_pro"
+        android:fontFamily="@font/roboto_slab"
         android:text="Le tue liste"
         android:textAlignment="center"
+        android:textColor="@color/text_dark"
         android:textSize="40sp"
         android:textStyle="bold" />
 
@@ -34,33 +35,36 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
-            android:id="@+id/logoutBtn"
-            android:layout_marginRight="10dp"
+        <Button
+            android:id="@+id/btnLogout"
+
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/anonymous_pro"
             android:padding="0dp"
             android:text="logout"
-            android:textColor="#505050"
-            app:cornerRadius="100dp"
-            />
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            app:cornerRadius="100dp" />
 
+        <Button
             android:id="@+id/btnAddProduct"
+
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:padding="0dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:padding="0dp"
             android:text="+"
-            android:textColor="#505050"
+            android:textColor="@color/text_dark"
             android:textSize="40sp"
-            app:cornerRadius="100dp"/>
+            app:cornerRadius="100dp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         recyclerView = findViewById(R.id.rvLists);
         button_add_list = findViewById(R.id.btnAddProduct);
-        logoutBtn = findViewById(R.id.logoutBtn);
+        logoutBtn = findViewById(R.id.btnLogout);
 
         dialog = new Dialog(HomeActivity.this);
         dialog.setContentView(R.layout.dialog_add_list);
