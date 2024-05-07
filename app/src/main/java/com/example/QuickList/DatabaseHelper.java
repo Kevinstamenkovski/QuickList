@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE_COLUMN_EMAIL = "email";
     public static final String USER_TABLE_COLUMN_PASSWORD = "password";
 
-    public static final String LIST_TABLE_NAME = "list";
+    public static final String LIST_TABLE_NAME = "Lists";
     public static final String LIST_TABLE_COLUMN_ID = "listID";
     public static final String LIST_TABLE_COLUMN_LIST_NAME = "list_name";
     public static final String LIST_TABLE_COLUMN_USER_ID = "userID";
@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ""+ USER_TABLE_COLUMN_USERNAME +" VARCHAR(150) NOT NULL UNIQUE, " +
                 ""+ USER_TABLE_COLUMN_FULLNAME +" VARCHAR(150) NOT NULL, " +
                 ""+ USER_TABLE_COLUMN_PASSWORD +" VARCHAR(150) NOT NULL, " +
-                ""+ USER_TABLE_COLUMN_EMAIL +" VARCHAR(150) UNIQUE NOT NULL)"
+                ""+ USER_TABLE_COLUMN_EMAIL +" VARCHAR(150) /*UNIQUE*/ NOT NULL)"
         );
         db.execSQL("CREATE TABLE IF NOT EXISTS "+ LIST_TABLE_NAME +" (" +
                 ""+ LIST_TABLE_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " +

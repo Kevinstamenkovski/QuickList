@@ -37,7 +37,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnRegister.setOnClickListener(v -> {
             try {
-                Log.i(null, databaseHelper.createUser(etFirstName.getText().toString(), etLastName.getText().toString(), etUserName.getText().toString(), etEmail.getText().toString(), etPassword.getText().toString()));
+                Log.i(null, databaseHelper.createUser(etFirstName.getText().toString(),
+                        etLastName.getText().toString(), etUserName.getText().toString(),
+                        etEmail.getText().toString(), etPassword.getText().toString()));
             }catch (SQLiteException error){
                 Log.e(null, "ERROR in SQLite: "+ error);
             }finally{
