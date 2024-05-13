@@ -127,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateProduct(int productID){
+    public boolean updateProduct(int productID, int newAmount){
         SQLiteDatabase db = this.getWritableDatabase();
 //        db.update();
         return true;

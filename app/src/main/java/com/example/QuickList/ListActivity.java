@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,7 +31,7 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
     EditText etDialogProductName, etDialogEditProductName, etDialogEditProductAmount;
     TextView tvDialogEditProductName;
 
-    Intent intent = getIntent();
+    Intent intent;
     int listID;
     int userID;
 
@@ -38,9 +39,8 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
         backButton = findViewById(R.id.backButton);
-
+        databaseHelper = new DatabaseHelper(this);
         backButton.setOnClickListener(v -> {
 //            Intent intent = new Intent(ListActivity.this, HomePage.class);
             finish();
@@ -69,9 +69,10 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
         etDialogEditProductAmount = dialogEditItem.findViewById(R.id.etDialogEditProductAmount);
         tvDialogEditProductName = dialogEditItem.findViewById(R.id.tvDialogEditProductName);
         btnDialogEditProduct = dialogEditItem.findViewById(R.id.btnDialogEditProduct);
+        intent = getIntent();
         userID = intent.getIntExtra("userID", -1);
         listID = intent.getIntExtra("listID", -1);
-
+        Log.e(null, userID + ", "+ listID);
         cursor = databaseHelper.getProducts(listID, userID);
         if (cursor.moveToFirst()) {
             do {
@@ -98,15 +99,13 @@ public class ListActivity extends AppCompatActivity implements ProductInterface 
             }
         });
 
-        btnDialogAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etDialogProductName.getText().toString();
-                etDialogProductName.setText("");
-                databaseHelper.createProduct(name, 1, listID);
-                adapter.notifyDataSetChanged();
-                dialogAddItem.dismiss();
-            }
+        btnDialogAddProduct.setOnClickListener(v ->  {
+            String name = etDialogProductName.getText().toString();
+            databaseHelper.createProduct(name, 1, listID);
+            Log.e(null, name +", "+ listID);
+            etDialogProductName.setText("");
+            adapter.notifyDataSetChanged();
+            dialogAddItem.dismiss();
         });
     }
 
