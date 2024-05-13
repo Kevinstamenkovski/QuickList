@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getProductNumbers(int id){
         int productNumber = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT COUNT(productID) " +
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) " +
                 "FROM Products " +
                 "JOIN list ON list.listID = Products.productID " +
                 "WHERE Products.listID = "+id, null);

@@ -50,14 +50,13 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         Cursor cursor = databaseHelper.getListsByUserID(userID);
 
-        @SuppressLint("Range")
-        int listID = cursor.getInt(cursor.getColumnIndex("listID"));
-
         Log.e(null, "CURSOR COUNT: "+ String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {
                 @SuppressLint("Range")
-                int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.LIST_TABLE_COLUMN_ID));
+                int id = cursor.getInt(cursor.getColumnIndex("listID"));
+//                @SuppressLint("Range")
+//                int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.LIST_TABLE_COLUMN_ID));
                 @SuppressLint("Range")
                 String title = cursor.getString(cursor.getColumnIndex(DatabaseHelper.LIST_TABLE_COLUMN_LIST_NAME));
                 int number_items = databaseHelper.getProductNumbers(id);
