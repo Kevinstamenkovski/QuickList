@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     Intent intent;
 
     List<String> list_titles;
-    List<Integer> list_number_items;
+    List<Integer> list_number_items, list_id;
     RecyclerView recyclerView;
     ListAdapter adapter;
     Button button_add_list, btnDialogAddList,logoutBtn;
@@ -47,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         list_titles = new ArrayList<>();
         list_number_items = new ArrayList<>();
+        list_id = new ArrayList<>();
 
         Cursor cursor = databaseHelper.getListsByUserID(userID);
 
@@ -62,11 +63,12 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
                 int number_items = databaseHelper.getProductNumbers(id);
                 list_titles.add(title);
                 list_number_items.add(number_items);
+                list_id.add(id);
                 Log.e(null, "GETTING DATA...");
             } while (cursor.moveToNext());
         }
         Log.e(null, "FINISHED GETTING LIST");
-        adapter = new ListAdapter(this, list_titles, list_number_items, this);
+        adapter = new ListAdapter(this, list_titles, list_number_items, list_id, this);
 
         recyclerView = findViewById(R.id.rvLists);
         button_add_list = findViewById(R.id.btnAddProduct);
@@ -79,8 +81,6 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
 
         btnDialogAddList = dialog.findViewById(R.id.btnDialogAddList);
         etDialogListName = dialog.findViewById(R.id.etDialogListName);
-
-
 
         //Prendo tutti i valori dal database e li metto in una array list
 
@@ -118,10 +118,10 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, int list_id) {
         Intent intent = new Intent(HomeActivity.this, ListActivity.class);
         intent.putExtra("userID", userID);
-        intent.putExtra("listID", listID);
+        intent.putExtra("listID", list_id);
         startActivity(intent);
     }
 

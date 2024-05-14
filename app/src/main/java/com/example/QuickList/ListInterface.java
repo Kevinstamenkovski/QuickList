@@ -1,5 +1,5 @@
 package com.example.QuickList;
 
 public interface ListInterface {
-    void onItemClick(int position);
+    void onItemClick(int position, int id);
 }
