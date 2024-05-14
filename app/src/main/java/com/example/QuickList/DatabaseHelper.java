@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE_COLUMN_EMAIL = "email";
     public static final String USER_TABLE_COLUMN_PASSWORD = "password";
 
-    public static final String LIST_TABLE_NAME = "Lists";
+    public static final String LIST_TABLE_NAME = "list";
     public static final String LIST_TABLE_COLUMN_ID = "listID";
     public static final String LIST_TABLE_COLUMN_LIST_NAME = "list_name";
     public static final String LIST_TABLE_COLUMN_USER_ID = "userID";
@@ -53,8 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ""+ PRODUCT_TABLE_COLUMN_NAME +" VARCHAR NOT NULL, " +
                 ""+ PRODUCT_TABLE_COLUMN_LIST_ID +" INT NOT NULL,  " +
                 ""+ PRODUCT_TABLE_COLUMN_AMOUNT +" INT NOT NULL)");
-        db. execSQL("INSERT INTO list (list_name, userID) VALUES (\"testName1\", 1 ), (\"testName2\", 2), (\"testName3\",  1)");
-        db. execSQL("INSERT INTO Products (name, amount, listID) VALUES (\"testNameProd1\", 2, 1), (\"testNameProd2\", 4, 2), (\"testNameProd3\",  1, 1)");
     }
 
     public String createUser(String firstname, String lastname, String username, String email, String password){
