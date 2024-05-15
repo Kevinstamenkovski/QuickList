@@ -130,4 +130,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.update();
         return true;
     }
+
+    public boolean removeProduct(int listID, int productID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] args = {PRODUCT_TABLE_COLUMN_ID, String.valueOf(productID), PRODUCT_TABLE_COLUMN_LIST_ID, String.valueOf(listID)};
+        db.delete(PRODUCT_TABLE_NAME, "? = ? AND ? = ?", args);
+        return true;
+    }
 }

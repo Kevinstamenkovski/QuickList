@@ -60,7 +60,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         int position = getAdapterPosition();
 
                         if(position != RecyclerView.NO_POSITION) {
-                            listInterface.onItemClick(position, list_id);
+                            listInterface.onItemClick(position, list_id, title.getText().toString());
                         }
                     }
                 }

@@ -17,14 +17,15 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private final ProductInterface productInterface;
     List<String> prodNames;
-    List<Integer> prodAmounts;
+    List<Integer> prodAmounts, id;
     List<Blob> prodImages;
     LayoutInflater inflater;
 
-    public ProductAdapter(Context context, List<String> prodNames, List<Integer> prodAmounts, ProductInterface productInterface) {
+    public ProductAdapter(Context context, List<String> prodNames, List<Integer> prodAmounts, List<Integer> id, ProductInterface productInterface) {
         this.prodNames = prodNames;
         this.prodAmounts = prodAmounts;
 //        this.prodImages = prodImages;
+        this.id = id;
         this.inflater = LayoutInflater.from(context);
         this.productInterface = productInterface;
     }
@@ -41,6 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 //        todo:        holder.prodImage.setImage(prodImages.get(position));
         holder.productName.setText(prodNames.get(position));
         holder.productAmount.setText(prodAmounts.get(position).toString());
+        holder.productID = id.get(position);
     }
 
     @Override
@@ -53,6 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView productName;
         TextView productAmount;
         Button removeButton;
+        int productID;
 
         public ViewHolder(@NonNull View itemView, ProductInterface productInterface){
             super(itemView);
@@ -81,7 +84,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                         int position = getAdapterPosition();
 
                         if(position != RecyclerView.NO_POSITION) {
-                            productInterface.onButtonClick(position);
+                            productInterface.onButtonClick(position, productID);
                         }
                     }
                 }

@@ -31,7 +31,6 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     Dialog dialog;
     EditText etDialogListName;
     public int userID;
-    public int listID;
 
 //    @SuppressLint("Range")
     @Override
@@ -96,6 +95,7 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
         });
 
         btnDialogAddList.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
                 String name = etDialogListName.getText().toString();
@@ -103,6 +103,9 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
                 databaseHelper.createList(name, userID);
                 list_titles.add(name);
                 list_number_items.add(0);
+                Cursor c = databaseHelper.getListsByUserID(userID);
+                c.moveToLast();
+                list_id.add(c.getInt(c.getColumnIndex(DatabaseHelper.LIST_TABLE_COLUMN_ID)));
                 adapter.notifyDataSetChanged();
 
                 dialog.dismiss();
@@ -118,10 +121,11 @@ public class HomeActivity extends AppCompatActivity implements ListInterface{
     }
 
     @Override
-    public void onItemClick(int position, int list_id) {
+    public void onItemClick(int position, int list_id, String title) {
         Intent intent = new Intent(HomeActivity.this, ListActivity.class);
         intent.putExtra("userID", userID);
         intent.putExtra("listID", list_id);
+        intent.putExtra("listName", title);
         startActivity(intent);
     }
 
